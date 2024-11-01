@@ -7,7 +7,7 @@ const firebaseConfig = {
     messagingSenderId: "469450478703",
     appId: "1:469450478703:web:6019d7a41b6508a9b1299a",
     measurementId: "G-5B0936W17P"
-  };
+};
 // Firebase'i başlat
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
@@ -31,109 +31,118 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Menü öğelerini Firebase'den çekip kategoriye göre ayırma
-function fetchMenuItems() {
+async function fetchMenuItems() {
     const menuContent = document.getElementById('menuContent');
     menuContent.innerHTML = ''; // Mevcut içeriği temizle
     const categories = {};
 
-    // Kategorileri çekme
-    database.ref('Categories').once('value', (catSnapshot) => {
+    try {
+        // Kategorileri çekme
+        const catSnapshot = await database.ref('Categories').once('value');
         const categoryData = catSnapshot.val();
 
         // Ürünleri çekme
-        database.ref('Products').once('value', (snapshot) => {
-            snapshot.forEach((childSnapshot) => {
-                const product = childSnapshot.val();
-                if (product && product.categoryId) {
-                    const categoryId = product.categoryId;
-                    if (!categories[categoryId]) {
-                        categories[categoryId] = {
-                            info: categoryData[categoryId],
-                            products: []
-                        };
-                    }
-                    categories[categoryId].products.push(product);
+        const snapshot = await database.ref('Products').once('value');
+        snapshot.forEach((childSnapshot) => {
+            const product = childSnapshot.val();
+            if (product && product.categoryId) {
+                const categoryId = product.categoryId;
+                if (!categories[categoryId]) {
+                    categories[categoryId] = {
+                        info: categoryData[categoryId],
+                        products: []
+                    };
                 }
-            });
-
-            // Kategorileri ve ürünleri işleme
-            for (let categoryId in categories) {
-                const categoryInfo = categories[categoryId].info;
-                const categoryProducts = categories[categoryId].products;
-
-                // Kategori ismini ve resmini seçili dile göre al
-                const categoryName = categoryInfo.names[selectedLanguage] || categoryInfo.names['tr'];
-                const categoryImageUrl = categoryInfo.imageUrl;
-
-                // Kategori bölümü oluşturma
-                const categoryDiv = document.createElement('div');
-                categoryDiv.classList.add('category-container');
-
-                const categoryTitleDiv = document.createElement('div');
-                categoryTitleDiv.classList.add('category');
-
-                // Kategori başlığına arka plan resmi ekleme
-                categoryTitleDiv.style.backgroundImage = `url(${categoryImageUrl})`;
-
-                const categoryTitle = document.createElement('h2');
-                categoryTitle.textContent = categoryName;
-
-                categoryTitleDiv.addEventListener('click', () => {
-                    toggleMenu(categoryId);
-                });
-
-                categoryTitleDiv.appendChild(categoryTitle);
-
-                const menuItemsDiv = document.createElement('div');
-                menuItemsDiv.classList.add('menu-items');
-                menuItemsDiv.id = categoryId;
-
-                categoryProducts.forEach(product => {
-                    const menuItemDiv = document.createElement('div');
-                    menuItemDiv.classList.add('menu-item');
-
-                    // Ürün isimlerini ve açıklamalarını seçili dile göre al
-                    const productName = product.names[selectedLanguage] || product.names['tr'];
-                    const productDescription = product.descriptions[selectedLanguage] || product.descriptions['tr'];
-
-                    // Güvenli bir şekilde öğeleri oluşturma
-                    const img = document.createElement('img');
-                    img.src = product.imageUrl;
-                    img.alt = productName;
-                    img.loading = 'lazy'; // Lazy loading
-                    img.addEventListener('click', () => {
-                        openImageModal(product.imageUrl, productName);
-                    });
-
-                    const itemInfoDiv = document.createElement('div');
-                    itemInfoDiv.classList.add('item-info');
-
-                    const h3 = document.createElement('h3');
-                    h3.textContent = productName;
-
-                    const p = document.createElement('p');
-                    p.textContent = productDescription;
-
-                    itemInfoDiv.appendChild(h3);
-                    itemInfoDiv.appendChild(p);
-
-                    const priceSpan = document.createElement('span');
-                    priceSpan.classList.add('price');
-                    priceSpan.textContent = `₺${product.price}`;
-
-                    menuItemDiv.appendChild(img);
-                    menuItemDiv.appendChild(itemInfoDiv);
-                    menuItemDiv.appendChild(priceSpan);
-
-                    menuItemsDiv.appendChild(menuItemDiv);
-                });
-
-                categoryDiv.appendChild(categoryTitleDiv);
-                categoryDiv.appendChild(menuItemsDiv);
-                menuContent.appendChild(categoryDiv);
+                categories[categoryId].products.push(product);
             }
         });
-    });
+
+        // Kategorileri ve ürünleri işleme
+        for (let categoryId in categories) {
+            const categoryInfo = categories[categoryId].info;
+            const categoryProducts = categories[categoryId].products;
+
+            // Kategori ismini ve resmini seçili dile göre al
+            const categoryName = categoryInfo.names[selectedLanguage] || categoryInfo.names['tr'];
+            const categoryImageUrl = categoryInfo.imageUrl;
+
+            // Kategori bölümü oluşturma
+            const categoryDiv = document.createElement('div');
+            categoryDiv.classList.add('category-container');
+
+            const categoryTitleDiv = document.createElement('div');
+            categoryTitleDiv.classList.add('category');
+
+            // Kategori başlığına arka plan resmi ekleme
+            categoryTitleDiv.style.backgroundImage = `url(${categoryImageUrl})`;
+
+            const categoryTitle = document.createElement('h2');
+            categoryTitle.textContent = categoryName;
+
+            categoryTitleDiv.addEventListener('click', () => {
+                toggleMenu(categoryId);
+            });
+
+            categoryTitleDiv.appendChild(categoryTitle);
+
+            const menuItemsDiv = document.createElement('div');
+            menuItemsDiv.classList.add('menu-items');
+            menuItemsDiv.id = categoryId;
+
+            categoryProducts.forEach(product => {
+                const menuItemDiv = document.createElement('div');
+                menuItemDiv.classList.add('menu-item');
+
+                // Ürün isimlerini ve açıklamalarını seçili dile göre al
+                const productName = product.names[selectedLanguage] || product.names['tr'];
+                const productDescription = product.descriptions[selectedLanguage] || product.descriptions['tr'];
+
+                // Güvenli bir şekilde öğeleri oluşturma
+                const img = document.createElement('img');
+                img.src = product.imageUrl;
+                img.alt = productName;
+                img.loading = 'eager'; // Resimleri hemen yükle
+                img.addEventListener('click', () => {
+                    openImageModal(product.imageUrl, productName);
+                });
+
+                const itemInfoDiv = document.createElement('div');
+                itemInfoDiv.classList.add('item-info');
+
+                const h3 = document.createElement('h3');
+                h3.textContent = productName;
+
+                const p = document.createElement('p');
+                p.textContent = productDescription;
+
+                itemInfoDiv.appendChild(h3);
+                itemInfoDiv.appendChild(p);
+
+                const priceSpan = document.createElement('span');
+                priceSpan.classList.add('price');
+                priceSpan.textContent = `₺${product.price}`;
+
+                menuItemDiv.appendChild(img);
+                menuItemDiv.appendChild(itemInfoDiv);
+                menuItemDiv.appendChild(priceSpan);
+
+                menuItemsDiv.appendChild(menuItemDiv);
+            });
+
+            categoryDiv.appendChild(categoryTitleDiv);
+            categoryDiv.appendChild(menuItemsDiv);
+            menuContent.appendChild(categoryDiv);
+        }
+
+        // Animasyonları ekle
+        AOS.init({
+            duration: 800, // Animasyon süresi
+            once: true // Scroll edildiğinde bir kez animasyon oynat
+        });
+
+    } catch (error) {
+        console.error('Veriler alınırken hata oluştu:', error);
+    }
 }
 
 // Menü öğesini aç/kapat
