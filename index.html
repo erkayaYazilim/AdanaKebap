@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Adana Kebapçısı - QR Menü</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome CSS link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <!-- CSS dosyası -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <!-- Dil Seçimi ve Sosyal İkonlar -->
+        <div class="header-top">
+            <!-- Dil Seçimi -->
+            <div class="language-selector">
+                <button onclick="setLanguage('tr')">Türkçe</button>
+                <button onclick="setLanguage('en')">English</button>
+                <button onclick="setLanguage('ru')">Русский</button>
+                <button onclick="setLanguage('ar')">العربية</button>
+            </div>
+            <!-- Sosyal Medya İkonları -->
+            <div class="social-icons">
+                <a href="https://www.instagram.com/01adanakebaptaksim/" target="_blank"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+
+        <div class="header-content">
+            <!-- Logo -->
+            <img src="https://firebasestorage.googleapis.com/v0/b/qrmenuapplication-9b920.appspot.com/o/footer.png?alt=media&token=c04fe7fa-ac4f-4a9b-9acf-df1101e2d46b" alt="Firma Logosu" class="logo" id="logo">
+
+            <!-- Header Metni -->
+            <div class="header-text">
+                <h1 id="restaurantName">01 Adana Kebap Pide ve Lahmacun Salonu</h1>
+                <h2 id="restaurantTagline">İstanbul'da kebap ve lahmacunda iddialıyız!</h2>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menü Kategorileri ve Ürünler -->
+    <div class="menu-container" id="menuContent"></div>
+
+    <!-- Firebase JS SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+    <!-- JavaScript kodu -->
+    <script src="script.js"></script>
+</body>
+</html>

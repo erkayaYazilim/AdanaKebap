@@ -1,0 +1,350 @@
+/* Genel Ayarlar */
+/* Tüm elemanlar için sıfırlama ve kutu modelini ayarlama */
+* {
+    margin: 0; /* Varsayılan margin değerini sıfırlar */
+    padding: 0; /* Varsayılan padding değerini sıfırlar */
+    box-sizing: border-box; /* Kutu modelini sınırlar dahilinde tutar */
+}
+
+/* Body Ayarları */
+body {
+    background-color: #1a1a1a; /* Arka plan rengini koyu gri yapar */
+    color: #ffffff; /* Metin rengini beyaz yapar */
+    font-family: 'Roboto', sans-serif; /* Yazı tipini Roboto olarak ayarlar */
+}
+
+/* Header (Üst Kısım) Ayarları */
+.header {
+    
+    background-color: #000000; /* Header arka plan rengini siyah yapar */
+    color: #ffba00; /* Metin rengini altın sarısı yapar */
+    position: sticky; /* Header'ı sayfanın üstünde sabitler */
+    top: 0; /* Header'ın sayfanın en üstünde olmasını sağlar */
+    z-index: 1000; /* Katman sırasını ayarlar */
+    transition: none; /* Geçiş efektlerini ayarlar */
+}
+
+/* Header İçeriği */
+.header-content {
+    max-width: 1200px; /* İçeriğin maksimum genişliğini ayarlar */
+    margin: 0 auto; /* İçeriği ortalar */
+    display: flex; /* Esnek kutu modeli kullanır */
+    flex-direction: column; /* Elemanları dikey olarak yerleştirir (büyük modda) */
+    align-items: center; /* Elemanları yatayda ortalar */
+    padding: 20px 30px; /* İç boşlukları ayarlar */
+    transition: none; /* Geçiş efektlerini ayarlar */
+}
+
+/* Header Küçüldüğünde (Shrink) */
+.header.shrink .header-content {
+    flex-direction: row; /* Elemanları yatay olarak yerleştirir (küçük modda) */
+    align-items: center; /* Elemanları dikeyde ortalar */
+    padding: 10px 20px; /* İç boşlukları azaltır */
+}
+
+/* Küçük modda başlık metnini küçült ve yatayda daha fazla alan doldur */
+.header.shrink .header-text {
+    font-size: 0.8em; /* Yazı boyutunu küçültür */
+    flex-grow: 1; /* Metnin daha fazla alan kaplamasını sağlar */
+    margin-left: 10px; /* Logodan hafif boşluk */
+    text-align: left; /* Metni sola hizalar */
+}
+
+.header.shrink .header-text h1 {
+    font-size: 1.2em; /* Başlık yazı boyutunu küçült */
+}
+
+.header.shrink .header-text h2 {
+    font-size: 0.9em; /* Alt başlık yazı boyutunu küçült */
+}
+
+.header.shrink {
+    padding: 10px 20px;
+    font-size: 0.9em;
+}
+
+
+/* Logo Ayarları */
+.logo {
+    width: 200px; /* Logo genişliği (büyük modda) */
+    height: 200px; /* Logo yüksekliği (büyük modda) */
+    border-radius: 50%; /* Logoyu daire şeklinde yapar */
+    object-fit: cover; /* Görüntünün nesne alanına sığmasını sağlar */
+    transition: all 0.3s ease; /* Geçiş efektlerini ayarlar */
+    box-shadow: 0 0 15px rgba(255, 186, 0, 0.6), 0 0 30px rgba(255, 186, 0, 0.4); /* Altın sarısı ışık halkası efekti */
+}
+
+/* Logo Üzerine Gelindiğinde (Hover) */
+.logo:hover {
+    box-shadow: 0 0 20px rgba(255, 186, 0, 0.8), 0 0 40px rgba(255, 186, 0, 0.6); /* Daha parlak ışık halkası efekti */
+    transform: scale(1.05); /* Hafifçe büyütme efekti */
+}
+
+/* Küçük Modda Logo */
+.header.shrink .logo {
+    width: 60px; /* Logo genişliği (küçük modda) */
+    height: 60px; /* Logo yüksekliği (küçük modda) */
+    box-shadow: none; /* Işık halkası efektini kaldırır */
+}
+
+/* Header Metni Ayarları */
+.header-text {
+    margin-top: 15px; /* Üstten boşluk (büyük modda) */
+    text-align: center; /* Metni ortalar */
+    transition: all 0.3s ease; /* Geçiş efektlerini ayarlar */
+}
+
+/* Header Küçüldüğünde Metin Ayarları */
+.header.shrink .header-text {
+    margin-top: 0; /* Üstten boşluğu kaldırır */
+    margin-left: 15px; /* Soldan boşluk ekler (küçük modda) */
+    text-align: left; /* Metni sola hizalar */
+}
+
+/* Ana Başlık (Restaurant Name) */
+.header-text h1 {
+    font-size: 1em; /* Yazı boyutu */
+    font-family: 'Montserrat', sans-serif; /* Yazı tipi */
+    font-weight: bold; /* Kalın yazı tipi */
+    text-transform: uppercase; /* Harfleri büyük yapar */
+    color: #ffba00; /* Metin rengini altın sarısı yapar */
+}
+
+/* Alt Başlık (Tagline) */
+.header-text h2 {
+    font-size: 0.5em; /* Yazı boyutu */
+    font-weight: 500; /* Yazı kalınlığı */
+    color: #ffba00; /* Metin rengini altın sarısı yapar */
+}
+
+/* Restoran İsmi (Küçük Modda) */
+.restaurant-name {
+    display: none; /* Büyük modda görünmez */
+    margin-left: 15px; /* Soldan boşluk ekler */
+    font-size: 1.0em; /* Yazı boyutu */
+    font-family: 'Montserrat', sans-serif; /* Yazı tipi */
+    font-weight: bold; /* Kalın yazı tipi */
+    text-transform: uppercase; /* Harfleri büyük yapar */
+    color: #ffba00; /* Metin rengini altın sarısı yapar */
+}
+
+/* Header Küçüldüğünde Restoran İsmi Görünür */
+.header.shrink .restaurant-name {
+    display: block; /* Görünür yapar */
+}
+
+/* Sosyal İkonlar */
+.social-icons {
+    margin-top: 15px; /* Üstten boşluk */
+    display: flex; /* Esnek kutu modeli */
+    gap: 15px; /* İkonlar arası boşluk */
+    transition: all 0.3s ease; /* Geçiş efektleri */
+}
+
+/* Header Küçüldüğünde Sosyal İkonlar */
+.header.shrink .social-icons {
+    margin-top: 0; /* Üstten boşluğu kaldırır */
+    margin-right: auto; /* Sağ tarafa yaslar */
+}
+/* Dil Seçici */
+.language-selector {
+    position: absolute; /* Sağ üst köşeye sabitler */
+    top: 40px; /* Header ile arasına daha fazla boşluk bırakır */
+    right: 20px; /* Sağdan boşluk */
+    display: flex; /* Esnek kutu modeli */
+    gap: 6px; /* Butonlar arası boşluk */
+    z-index: 10; /* Katman sırasını ayarlar */
+}
+
+/* Dil Seçici Butonları */
+.language-selector button {
+    background-color: rgba(255, 186, 0, 0.8); /* Altın sarısı yarı saydam arka plan */
+    border: none; /* Kenarlığı kaldırır */
+    color: #000000; /* Metin rengini siyah yapar */
+    font-size: 0.5em; /* Daha küçük yazı boyutu */
+    font-family: 'Montserrat', sans-serif; /* Yazı tipi */
+    font-weight: bold; /* Kalın yazı tipi */
+    padding: 6px 8px; /* İç boşlukları küçültür */
+    border-radius: 6px; /* Köşeleri hafifçe yuvarlar */
+    cursor: pointer; /* İmleci el yapar */
+    transition: all 0.3s ease; /* Geçiş efektlerini ayarlar */
+}
+
+/* Hover Efekti */
+.language-selector button:hover {
+    background-color: #ffba00; /* Daha parlak altın sarısı arka plan */
+    color: #1a1a1a; /* Metin rengini koyu gri yapar */
+    transform: translateY(-2px); /* Yukarı doğru hafif hareket */
+}
+
+/* Tıklama Efekti */
+.language-selector button:active {
+    transform: translateY(1px); /* Aşağı doğru hafif hareket */
+    background-color: rgba(255, 186, 0, 0.9); /* Daha koyu arka plan */
+}
+
+
+/* Sosyal İkonlar */
+.social-icons {
+    margin-right: 20px; /* Soldan boşluk */
+}
+
+.social-icons a {
+    text-decoration: none; /* Alt çizgiyi kaldırır */
+    color: #ffba00; /* İkon rengini altın sarısı yapar */
+    font-size: 1.5em; /* İkon boyutu */
+    transition: color 0.3s ease; /* Renk geçiş efekti */
+}
+
+.social-icons a:hover {
+    color: #ffffff; /* Rengi beyaz yapar */
+}
+/* Menü Bölümü Ayarları */
+.menu-container {
+    max-width: 800px; /* İçeriğin maksimum genişliği */
+    margin: 30px auto; /* Üst-alt ve yanlardan ortalama */
+    padding: 0 20px; /* İç boşluklar */
+}
+
+/* Kategori Başlığı Stilleri */
+.category {
+    position: relative; /* Konumlandırmayı relative yapar */
+    padding: 30px 10px; /* İç boşluklar */
+    margin: 20px 0; /* Dış boşluklar */
+    color: #fff; /* Metin rengini beyaz yapar */
+    text-align: center; /* Metni ortalar */
+    background-size: cover; /* Arka plan resmini kaplar */
+    background-position: center; /* Arka plan resmini ortalar */
+    background-repeat: no-repeat; /* Arka plan resmini tekrar etmez */
+    cursor: pointer; /* İmleci el yapar */
+    border-radius: 10px; /* Köşeleri yuvarlar */
+    transition: background-color 0.3s, transform 0.3s; /* Geçiş efektleri */
+    font-family: 'Montserrat', sans-serif; /* Yazı tipi */
+    font-weight: bold; /* Kalın yazı tipi */
+    font-size: 1.5em; /* Yazı boyutu */
+}
+
+/* Kategori Başlığının Şeffaf Arka Planı */
+.category::before {
+    content: ''; /* İçerik ekler */
+    position: absolute; /* Konumlandırmayı absolute yapar */
+    top: 0; /* Üstten sıfırlar */
+    left: 0; /* Soldan sıfırlar */
+    width: 100%; /* Genişliği yüzde 100 yapar */
+    height: 100%; /* Yüksekliği yüzde 100 yapar */
+    background-color: rgba(0, 0, 0, 0.5); /* Şeffaf siyah katman */
+    z-index: 1; /* Katman sırasını ayarlar */
+}
+
+/* Kategori Başlığı Metni */
+.category h2 {
+    position: relative; /* Konumlandırmayı relative yapar */
+    z-index: 2; /* Metnin üstte görünmesini sağlar */
+    color: #ffffff; /* Metin rengini altın sarısı yapar */
+}
+
+/* Menü Öğeleri */
+.menu-items {
+    display: none; /* Başlangıçta görünmez */
+    background-color: #2a2a2a; /* Arka plan rengini koyu gri yapar */
+    border-radius: 0 0 10px 10px; /* Alt köşeleri yuvarlar */
+    padding: 5px; /* İç boşluklar */
+    margin-bottom: 5px; /* Alt boşluk */
+}
+
+/* Menü Öğesi */
+.menu-item {
+    display: flex; /* Esnek kutu modeli */
+    align-items: center; /* Dikeyde ortalar */
+    padding: 10px 0; /* İç boşlukları azaltır */
+    border-bottom: 1px dashed #555555; /* Alt çizgi */
+}
+
+/* Son Menü Öğesi */
+.menu-item:last-child {
+    border-bottom: none; /* Alt çizgiyi kaldırır */
+}
+
+/* Menü Öğesi Resmi */
+.menu-item img {
+    width: 60px; /* Resim genişliği */
+    height: 60px; /* Resim yüksekliği */
+    border-radius: 10px; /* Köşeleri yuvarlar */
+    margin-right: 15px; /* Sağdan boşluk */
+    object-fit: cover; /* Resmin alanı kaplamasını sağlar */
+}
+
+/* Menü Öğesi Bilgileri */
+.item-info {
+    flex: 1; /* Esneme faktörü */
+}
+
+/* Menü Öğesi Başlığı */
+.item-info h3 {
+    font-size: 1.2em; /* Yazı boyutu */
+    color: #ffba00; /* Metin rengini altın sarısı yapar */
+    margin-bottom: 8px; /* Alt boşluk */
+    font-weight: bold; /* Kalın yazı tipi */
+    font-family: 'Montserrat', sans-serif; /* Yazı tipi */
+}
+
+/* Menü Öğesi Açıklaması */
+.item-info p {
+    font-size: 0.9em; /* Yazı boyutu */
+    color: #cccccc; /* Metin rengini açık gri yapar */
+}
+
+/* Fiyat Bilgisi */
+.price {
+    font-weight: bold; /* Kalın yazı tipi */
+    font-size: 1.2em; /* Yazı boyutu */
+    color: #ffba00; /* Metin rengini altın sarısı yapar */
+    margin-left: 10px; /* Soldan boşluk */
+}
+
+/* Menü Öğesi Üzerine Gelindiğinde */
+.menu-item:hover {
+    background-color: #3a3a3a; /* Arka plan rengini koyulaştırır */
+}
+
+/* Küçük Ekranlar İçin Ayarlar */
+@media screen and (max-width: 600px) {
+    /* Header İç Boşlukları */
+    .header {
+        padding: 10px 15px; /* İç boşlukları azaltır */
+    }
+
+    /* Logo Boyutu */
+    .logo {
+        width: 80px; /* Genişliği azaltır */
+        height: 80px; /* Yüksekliği azaltır */
+    }
+
+    /* Header Metni Başlık */
+    .header-text h1 {
+        font-size: 1.2em; /* Yazı boyutunu artırır */
+    }
+
+    /* Header Metni Alt Başlık */
+    .header-text h2 {
+        font-size: 0.9em; /* Yazı boyutunu artırır */
+    }
+
+    /* Sosyal İkonlar Boyutu */
+    .social-icons a {
+        font-size: 1em; /* İkon boyutunu azaltır */
+    }
+
+    /* Dil Seçici Butonları */
+    .language-selector {
+        top: 10px; /* Üstten boşluğu azaltır */
+        right: 10px; /* Sağdan boşluğu azaltır */
+    }
+
+    .language-selector button {
+        font-size: 0.7em; /* Yazı boyutunu azaltır */
+        padding: 8px 12px; /* İç boşlukları azaltır */
+    }
+}
+
+
