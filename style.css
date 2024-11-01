@@ -124,7 +124,7 @@ body {
     cursor: pointer;
     border-radius: 10px;
     font-weight: bold;
-    font-size: 1.5em;
+    font-size: 1.0em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -266,7 +266,7 @@ body {
     }
 
     .logo {
-        margin-top: 20px;
+        margin-top: 25px;
         width: 60px;
         height: 60px;
         margin-right: 10px;
@@ -279,7 +279,7 @@ body {
     
 
     .header-text {
-        margin-top: 15px;
+        margin-top: 20px;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
