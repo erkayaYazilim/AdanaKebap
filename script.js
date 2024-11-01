@@ -11,7 +11,6 @@ const firebaseConfig = {
 // Firebase'i başlat
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
-const storage = firebase.storage();
 
 let selectedLanguage = 'tr'; // Varsayılan dil
 
@@ -101,6 +100,10 @@ function fetchMenuItems() {
                     const img = document.createElement('img');
                     img.src = product.imageUrl;
                     img.alt = productName;
+                    img.loading = 'lazy'; // Lazy loading
+                    img.addEventListener('click', () => {
+                        openImageModal(product.imageUrl, productName);
+                    });
 
                     const itemInfoDiv = document.createElement('div');
                     itemInfoDiv.classList.add('item-info');
@@ -133,13 +136,11 @@ function fetchMenuItems() {
     });
 }
 
-// Menü öğesini aç/kapat ve header'ı küçült
+// Menü öğesini aç/kapat
 function toggleMenu(categoryId) {
     const menu = document.getElementById(categoryId);
-    const header = document.getElementById('header');
     if (menu.style.display === "block") {
         menu.style.display = "none";
-        header.classList.remove('shrink');
     } else {
         // Tüm açık menüleri kapat
         const allMenus = document.querySelectorAll('.menu-items');
@@ -148,21 +149,8 @@ function toggleMenu(categoryId) {
         });
 
         menu.style.display = "block";
-        header.classList.add('shrink');
     }
 }
-
-// Scroll event ile header'ı küçültme
-// Kaydırma sırasında header küçültme
-window.addEventListener('scroll', () => {
-    const header = document.getElementById('header');
-    if (window.scrollY > 50) {
-        header.classList.add('shrink');
-    } else {
-        header.classList.remove('shrink');
-    }
-});
-
 
 // Başlık metinlerini yükle
 function loadHeaderText() {
@@ -178,3 +166,26 @@ function loadHeaderText() {
         }
     });
 }
+
+// Ürün resmi modalını açma
+function openImageModal(imageUrl, altText) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    modal.style.display = "block";
+    modalImg.src = imageUrl;
+    modalImg.alt = altText;
+}
+
+// Modalı kapatma
+const modal = document.getElementById('imageModal');
+const modalClose = document.getElementById('modalClose');
+
+modalClose.onclick = function() {
+    modal.style.display = "none";
+};
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
