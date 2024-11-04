@@ -8,7 +8,7 @@ const firebaseConfig = {
     appId: "1:469450478703:web:6019d7a41b6508a9b1299a",
     measurementId: "G-5B0936W17P"
 };
-// Firebase'i başlat
+
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
@@ -37,14 +37,18 @@ async function fetchMenuItems() {
     const categories = {};
 
     try {
-        // Kategorileri çekme
-        const catSnapshot = await database.ref('Categories').once('value');
-        const categoryData = catSnapshot.val();
+        // Kategorileri ve ürünleri paralel olarak çekme
+        const [catSnapshot, productSnapshot] = await Promise.all([
+            database.ref('Categories').once('value'),
+            database.ref('Products').once('value')
+        ]);
 
-        // Ürünleri çekme
-        const snapshot = await database.ref('Products').once('value');
-        snapshot.forEach((childSnapshot) => {
-            const product = childSnapshot.val();
+        const categoryData = catSnapshot.val();
+        const productsData = productSnapshot.val();
+
+        // Kategorileri ve ürünleri işleme
+        for (let productId in productsData) {
+            const product = productsData[productId];
             if (product && product.categoryId) {
                 const categoryId = product.categoryId;
                 if (!categories[categoryId]) {
@@ -55,9 +59,9 @@ async function fetchMenuItems() {
                 }
                 categories[categoryId].products.push(product);
             }
-        });
+        }
 
-        // Kategorileri ve ürünleri işleme
+        // Kategorileri ve ürünleri oluşturma
         for (let categoryId in categories) {
             const categoryInfo = categories[categoryId].info;
             const categoryProducts = categories[categoryId].products;
@@ -97,11 +101,19 @@ async function fetchMenuItems() {
                 const productName = product.names[selectedLanguage] || product.names['tr'];
                 const productDescription = product.descriptions[selectedLanguage] || product.descriptions['tr'];
 
-                // Güvenli bir şekilde öğeleri oluşturma
+                // Resim öğesini oluşturma
                 const img = document.createElement('img');
                 img.src = product.imageUrl;
                 img.alt = productName;
-                img.loading = 'eager'; // Resimleri hemen yükle
+
+                // Resim yüklendiğinde bir önbellek ekleme
+                img.onload = () => {
+                    img.style.filter = 'blur(0)';
+                };
+
+                // Resmi bulanık göstererek yüklenirken kullanıcı deneyimini iyileştirme
+                img.style.filter = 'blur(10px)';
+
                 img.addEventListener('click', () => {
                     openImageModal(product.imageUrl, productName);
                 });
@@ -133,12 +145,6 @@ async function fetchMenuItems() {
             categoryDiv.appendChild(menuItemsDiv);
             menuContent.appendChild(categoryDiv);
         }
-
-        // Animasyonları ekle
-        AOS.init({
-            duration: 800, // Animasyon süresi
-            once: true // Scroll edildiğinde bir kez animasyon oynat
-        });
 
     } catch (error) {
         console.error('Veriler alınırken hata oluştu:', error);
